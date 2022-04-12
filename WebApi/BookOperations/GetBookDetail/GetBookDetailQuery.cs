@@ -5,40 +5,38 @@ using WebApi.DbOperations;
 using WebApi.Common;
 using System;
 
-namespace WebApi.BookOperations.GetBooks
+namespace WebApi.BookOperations.GetBookDetail
 {
-    public class GetBookByIdQuery
+    public class GetBookDetailQuery
     {
         public int BookId { get; set; }
         private readonly BookStoreDbContext _dbcontext;
 
-        public GetBookByIdQuery(BookStoreDbContext dbcontext)
+        public GetBookDetailQuery(BookStoreDbContext dbcontext)
         {
             _dbcontext = dbcontext;
         }
 
-        public BookViewModel Handle()
+        public BookDetailViewModel Handle()
         {
             var book = _dbcontext.Books.Where(x => x.Id == BookId).SingleOrDefault();
 
             if (book is null)
                 throw new InvalidOperationException("Kitap bulunamadı!");
 
-            BookViewModel vm = new BookViewModel();
+            BookDetailViewModel vm = new BookDetailViewModel();
             vm.Title = book.Title;
-            vm.PageCount = book.PageCount;
-            vm.PublishDate = ((GenreEnum)book.GenreId).ToString();
-            vm.Genre = book.PublishDate.Date.ToString("dd/MM/yyyy");
+            //vm.PageCount = book.PageCount;
+            //vm.PublishDate = book.PublishDate.Date.ToString("dd/MM/yyyy");
+            vm.Genre = ((GenreEnum)book.GenreId).ToString();
 
             return vm;
         }
     }
 
-    public class BookViewModel
+    public class BookDetailViewModel
     {
         public string Title { get; set; }
-        public int PageCount { get; set; }
-        public string PublishDate { get; set; }
         public string Genre { get; set; }
     }
 }
