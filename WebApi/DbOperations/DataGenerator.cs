@@ -22,6 +22,29 @@ namespace WebApi.DbOperations
                     return;   // Data was already seeded
                 }
 
+                context.Authors.AddRange(
+                    new Author{
+                        Name = "Erdal",
+                        Surname = "Demirkıran",
+                        BirthDate = new DateTime(2001, 06, 12)
+                    },
+                    new Author{
+                        Name = "Frank",
+                        Surname = "Herbert",
+                        BirthDate = new DateTime(1920, 10, 08)
+                    },
+                    new Author{
+                        Name = "John Ronald Reuel",
+                        Surname = "Tolkien",
+                        BirthDate = new DateTime(1892, 05, 15)
+                    },
+                    new Author{
+                        Name = "Jane",
+                        Surname = "Austen",
+                        BirthDate = new DateTime(1932, 06, 27)
+                    }
+                );
+
                 context.Genres.AddRange(
                     new Genre{
                         Name = "Personal Growth"
@@ -43,6 +66,7 @@ namespace WebApi.DbOperations
                        //Id = 1,
                        Title = "Leon Startup",
                        GenreId = 1,
+                       AuthorId = 1,
                        PageCount = 100,
                        PublishDate = new DateTime(2001, 06, 12)
                    },
@@ -51,6 +75,7 @@ namespace WebApi.DbOperations
                        //Id = 2,
                        Title = "Dune",
                        GenreId = 3,
+                       AuthorId = 2,
                        PageCount = 1250,
                        PublishDate = new DateTime(2007, 06, 12)
                    },
@@ -59,6 +84,7 @@ namespace WebApi.DbOperations
                        //Id = 3,
                        Title = "Hobbit",
                        GenreId = 4,
+                       AuthorId = 3,
                        PageCount = 1850,
                        PublishDate = new DateTime(2005, 06, 12)
                    });
