@@ -5,8 +5,9 @@ using WebApi.DbOperations;
 using WebApi.Common;
 using System;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
-namespace WebApi.BookOperations.GetBookDetail
+namespace WebApi.Application.BookOperations.Queries
 {
     public class GetBookDetailQuery
     {
@@ -22,7 +23,7 @@ namespace WebApi.BookOperations.GetBookDetail
 
         public BookDetailViewModel Handle()
         {
-            var book = _dbcontext.Books.Where(x => x.Id == BookId).SingleOrDefault();
+            var book = _dbcontext.Books.Include(x => x.Genre).Where(x => x.Id == BookId).SingleOrDefault();
 
             if (book is null)
                 throw new InvalidOperationException("Kitap bulunamadı!");

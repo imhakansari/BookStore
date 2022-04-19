@@ -4,14 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebApi.BookOperations.GetBooks;
-using WebApi.BookOperations.CreateBook;
-using WebApi.BookOperations.UpdateBook;
-using WebApi.BookOperations.GetBookDetail;
-using WebApi.BookOperations.DeleteBook;
 using AutoMapper;
 using FluentValidation.Results;
 using FluentValidation;
+using WebApi.Application.BookOperations.Queries;
+using WebApi.Application.BookOperations.Commands;
 
 namespace WebApi.Controllers
 {
@@ -39,18 +36,11 @@ namespace WebApi.Controllers
         public IActionResult GetById(int id)
         {
             BookDetailViewModel result;
-            try
-            {
-                GetBookDetailQuery query = new GetBookDetailQuery(_context, _mapper);
-                query.BookId = id;
-                GetBookDetailQueryValidator validator = new GetBookDetailQueryValidator();
-                validator.ValidateAndThrow(query);
-                result = query.Handle();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            GetBookDetailQuery query = new GetBookDetailQuery(_context, _mapper);
+            query.BookId = id;
+            GetBookDetailQueryValidator validator = new GetBookDetailQueryValidator();
+            validator.ValidateAndThrow(query);
+            result = query.Handle();
             return Ok(result);
         }
 
@@ -58,54 +48,33 @@ namespace WebApi.Controllers
         public IActionResult AddBook([FromBody] CreateBookModel newBook)
         {
             CreateBookCommand command = new CreateBookCommand(_context, _mapper);
-            try
-            {
-                command.Model = newBook;
-                CreateBookCommandValidator validator = new CreateBookCommandValidator();
-                validator.ValidateAndThrow(command);
-                command.Handle();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            command.Model = newBook;
+            CreateBookCommandValidator validator = new CreateBookCommandValidator();
+            validator.ValidateAndThrow(command);
+            command.Handle();
             return Ok();
         }
 
         [HttpPut("{id}")]
         public IActionResult UpdateBook([FromBody] UpdateBookModel updateBook, int id)
         {
-            try
-            {
-                UpdateBookCommand command = new UpdateBookCommand(_context);
-                command.BookId = id;
-                command.Model = updateBook;
-                UpdateBookCommandValidator validator = new UpdateBookCommandValidator();
-                validator.ValidateAndThrow(command);
-                command.Handle(); 
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            UpdateBookCommand command = new UpdateBookCommand(_context);
+            command.BookId = id;
+            command.Model = updateBook;
+            UpdateBookCommandValidator validator = new UpdateBookCommandValidator();
+            validator.ValidateAndThrow(command);
+            command.Handle();
             return Ok();
         }
 
         [HttpDelete("{id}")]
         public IActionResult DeleteBook(int id)
         {
-            try
-            {
-                DeleteBookCommand command = new DeleteBookCommand(_context);
-                command.BookId = id;
-                DeleteBookCommandValidator validator = new DeleteBookCommandValidator();
-                validator.ValidateAndThrow(command);
-                command.Handle(); 
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            DeleteBookCommand command = new DeleteBookCommand(_context);
+            command.BookId = id;
+            DeleteBookCommandValidator validator = new DeleteBookCommandValidator();
+            validator.ValidateAndThrow(command);
+            command.Handle();
             return Ok();
         }
     }

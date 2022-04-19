@@ -5,15 +5,14 @@ using WebApi.DbOperations;
 using WebApi.Common;
 using System;
 
-namespace WebApi.BookOperations.UpdateBook
+namespace WebApi.Application.BookOperations.Commands
 {
-    public class UpdateBookCommand
+    public class DeleteBookCommand
     {
         public int BookId { get; set; }
-        public UpdateBookModel Model {get;set;}
         private readonly BookStoreDbContext _dbcontext;
 
-        public UpdateBookCommand(BookStoreDbContext dbcontext)
+        public DeleteBookCommand(BookStoreDbContext dbcontext)
         {
             _dbcontext = dbcontext;
         }
@@ -22,18 +21,14 @@ namespace WebApi.BookOperations.UpdateBook
         {
             var book = _dbcontext.Books.SingleOrDefault(x => x.Id == BookId);
             if (book is null)
-                throw new InvalidOperationException("Güncellenecek kitap bulunamadı!");
+                throw new InvalidOperationException("Silinecek kitap bulunamadı!");
 
-            book.Title  = Model.Title;
-            book.PublishDate = Model.PublishDate;
-            book.PageCount = Model.PageCount;
-            book.GenreId = Model.GenreId;
-
+            _dbcontext.Remove(book);
             _dbcontext.SaveChanges();
         }
     }
 
-    public class UpdateBookModel
+    public class DeleteBookModel
     {
         public string Title { get; set; }
         public int GenreId { get; set; }
