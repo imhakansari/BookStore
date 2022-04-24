@@ -10,9 +10,9 @@ namespace WebApi.Application.GenreOperations.Commands
     public class DeleteGenreCommand
     {
         public int GenreId { get; set; }
-        private readonly BookStoreDbContext _dbcontext;
+        private readonly IBookStoreDbContext _dbcontext;
 
-        public DeleteGenreCommand(BookStoreDbContext dbcontext)
+        public DeleteGenreCommand(IBookStoreDbContext dbcontext)
         {
             _dbcontext = dbcontext;
         }
@@ -23,7 +23,7 @@ namespace WebApi.Application.GenreOperations.Commands
             if (genre is null)
                 throw new InvalidOperationException("Silinecek kitap türü bulunamadı!");
 
-            _dbcontext.Remove(genre);
+            _dbcontext.Genres.Remove(genre);
             _dbcontext.SaveChanges();
         }
     }

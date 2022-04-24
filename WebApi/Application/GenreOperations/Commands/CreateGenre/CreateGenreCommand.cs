@@ -12,10 +12,10 @@ namespace WebApi.Application.GenreOperations.Commands
     public class CreateGenreCommand
     {
         public CreateGenreModel Model {get;set;}
-        private readonly BookStoreDbContext _dbcontext;
+        private readonly IBookStoreDbContext _dbcontext;
         private readonly IMapper _mapper;
 
-        public CreateGenreCommand(BookStoreDbContext dbcontext, IMapper mapper)
+        public CreateGenreCommand(IBookStoreDbContext dbcontext, IMapper mapper)
         {
             _dbcontext = dbcontext;
             _mapper = mapper;

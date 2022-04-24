@@ -11,10 +11,10 @@ namespace WebApi.Application.AuthorOperations.Queries
     public class GetAuthorDetailQuery
     {
         public int AuthorId { get; set; }
-        private readonly BookStoreDbContext _dbcontext;
+        private readonly IBookStoreDbContext _dbcontext;
         private readonly IMapper _mapper;
 
-        public GetAuthorDetailQuery(BookStoreDbContext dbcontext, IMapper mapper)
+        public GetAuthorDetailQuery(IBookStoreDbContext dbcontext, IMapper mapper)
         {
             _dbcontext = dbcontext;
             _mapper = mapper;
